@@ -36,9 +36,9 @@ void read_audio()// get audio level and put it in the buffer
     {
       audio_autogain_counter = 0;
       audio_autogain--;
-      if (audio_autogain < 26)
+      if (audio_autogain < 13)
       {
-        audio_autogain = 26;
+        audio_autogain = 13;
       }
     }
   }

@@ -1,52 +1,30 @@
-int modebtn_islow = false;
-unsigned long modebtn_millis = 0;
+
 void setup() {
   Serial.begin(115200);
   Serial.println("Starting...");
+  //get pin 2 to help me set modes
   pinMode(2,INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(2),interupting, CHANGE);
+  //load up the strips
+  neo_strip1.begin();
+  neo_strip2.begin();
+  neo_strip3.begin();
+  neo_strip4.begin();
+  neo_strip5.begin();
+  neo_strip6.begin();
+  neo_strip7.begin();
+  neo_strip8.begin();
+  neo_show();
 }
 void loop() {
-  if (digitalRead(2) == HIGH && modebtn_islow == true) 
-  {
-    modebtn_islow = false;
-    Serial.println("btn-cancel ");
-  }
+  // check button for false readings
+  mode_btn_check();
   //Read out analog pin 7 for audio volumes
   read_audio();
   //audio_serialize();// debug
+  mode_select();
   delay(10);        // delay in between reads for stability
-}
-void interupting()
-{
-  unsigned long tmpmillis = millis();
-  int modebtn_curval = digitalRead(2);
-  if (modebtn_curval == LOW)
-  {
-    if (modebtn_islow == false)
-    {
-      modebtn_islow = true;
-      modebtn_millis = tmpmillis;
-    }
-    else
-    {
-      // wanna do something when the button skips skips skips a beat? (https://www.youtube.com/watch?v=j5dFe-WKuPs)
-    }
-  }
-  if ((modebtn_curval == HIGH && modebtn_islow == true))
-  {
-    if (tmpmillis > (modebtn_millis + 6000))//very long push (reset)
-    {
-      modebtn_islow = false;
-      
-    }
-    else if (tmpmillis > (modebtn_millis + 500))//Long press
-    {
-      modebtn_islow = false;
-    }
-    else if (tmpmillis > (modebtn_millis + 50))//Short press
-    {
-      modebtn_islow = false;
-    }
-  }
+
+  //debug
+  Serial.println(audio_autogain);
 }
