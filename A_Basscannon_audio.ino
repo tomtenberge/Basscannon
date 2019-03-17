@@ -11,7 +11,6 @@ int audio_buffer_pointer = 0;
 int audio_autogain = 26;
 int audio_autogain_counter = 0;
 int audio_overpower = 0;
-
 void read_audio()// get audio level and put it in the buffer
 {
   int sensorValue = analogRead(A7);

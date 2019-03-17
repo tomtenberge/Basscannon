@@ -3,8 +3,9 @@ void setup() {
   Serial.begin(115200);
   Serial.println("Starting...");
   //get pin 2 to help me set modes
-  pinMode(2,INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(2),interupting, CHANGE);
+  pinMode(main_modepin,INPUT_PULLUP);
+  randomSeed(analogRead(0));
+  attachInterrupt(digitalPinToInterrupt(main_modepin),interupting, CHANGE);
   //load up the strips
   neo_strip1.begin();
   neo_strip2.begin();
@@ -23,7 +24,6 @@ void loop() {
   read_audio();
   //audio_serialize();// debug
   mode_select();
-  delay(10);        // delay in between reads for stability
 
   //debug
   Serial.println(audio_autogain);
