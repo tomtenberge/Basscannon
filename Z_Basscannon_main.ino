@@ -1,6 +1,6 @@
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   Serial.println("Starting...");
   //get pin 2 to help me set modes
   pinMode(main_modepin,INPUT_PULLUP);
@@ -26,5 +26,6 @@ void loop() {
   mode_select();
 
   //debug
-  Serial.println(audio_autogain);
+  //Serial.println(audio_autogain);
+  //audio_serialize();
 }

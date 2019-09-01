@@ -3,23 +3,31 @@
 #define AUDIO_DELAY_COUNT 5
 int audio_average = 0;
 int audio_peak = 0;
+int audio_bass = 0;
 int audio_delay = 0;
 int audio_delay_counter = 0;
 int audio_buffer_size = AUDIO_BUFFER_SIZE;
 int audio_buffer[AUDIO_BUFFER_SIZE];
 int audio_buffer_pointer = 0;
 int audio_autogain = 26;
+int audio_bassautogain = 26;
 int audio_autogain_counter = 0;
+int audio_bassautogain_counter = 0;
 int audio_overpower = 0;
 void read_audio()// get audio level and put it in the buffer
 {
-  int sensorValue = analogRead(A7);
+  int sensorValue = analogRead(main_audiopin);
   while (sensorValue < 512)
   {
     sensorValue = 1023 - sensorValue;
   }
   sensorValue = sensorValue - 512;
-  //Serial.println(sensorValue);
+  int basssensorValue = analogRead(main_basspin);
+  while (basssensorValue < 512)
+  {
+    basssensorValue = 1023 - basssensorValue;
+  }
+  basssensorValue = basssensorValue - 512;
   audio_buffer[audio_buffer_pointer] = sensorValue;
   audio_buffer_pointer += 1;
   if (audio_buffer_pointer >= AUDIO_BUFFER_SIZE){audio_buffer_pointer = 0;}
@@ -41,6 +49,26 @@ void read_audio()// get audio level and put it in the buffer
       }
     }
   }
+  if (basssensorValue > audio_bassautogain)
+  {
+    audio_bassautogain = basssensorValue;
+    audio_bassautogain_counter = 0;
+  }
+  else
+  {
+    audio_bassautogain_counter++;
+    if (audio_bassautogain_counter > AUDIO_AUTOGAIN_COUNTER_MAX)
+    {
+      audio_bassautogain_counter = 0;
+      audio_bassautogain--;
+      if (audio_bassautogain < 5)
+      {
+        audio_bassautogain = 5;
+      }
+    }
+  }
+  audio_bass = map(basssensorValue, 0, audio_bassautogain, 0, 13);
+  Serial.println((String)audio_bass + " - " + (String)audio_bassautogain);
   // get audio peak
   int max = 0;
   for (int i=0; i <= (AUDIO_BUFFER_SIZE-1); i++){

@@ -1,5 +1,5 @@
-#define MODE_MAX 8
-int mode_current = 0;
+#define MODE_MAX 9
+int mode_current = 9;
 int mode_old = 0;
 //variables for the button to work
 int modebtn_islow = false;

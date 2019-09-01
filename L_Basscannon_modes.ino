@@ -45,10 +45,6 @@ void mode_01()
       mode_01_count = 0;
     }
   }
-  Serial.print("mode_01_mode = ");
-  Serial.print(mode_01_mode);
-  Serial.print(" mode_01_count = ");
-  Serial.println(mode_01_count);
   neo_show();
 }
 int mode_02_mode = 0;
@@ -351,7 +347,20 @@ void mode_08()
 }
 void mode_09()
 {
-  
+  neo_set_intensity(0.7);
+  for (int i = 0; i <= 14;i++)
+  {
+    if ((audio_bass >= i))
+    {
+      neo_setled(0,i,Blue);
+    }
+    else
+    {
+      neo_setled(0,i,Black);
+    }
+  }
+  Serial.println("poing - " + (String)audio_bass);
+  neo_show();
 }
 void mode_10()
 {
