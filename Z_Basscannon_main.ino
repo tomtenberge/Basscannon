@@ -4,6 +4,9 @@ void setup() {
   Serial.println("Starting...");
   //get pin 2 to help me set modes
   pinMode(main_modepin,INPUT_PULLUP);
+  pinMode(main_redpin, OUTPUT);
+  pinMode(main_greenpin, OUTPUT);
+  pinMode(main_bluepin,OUTPUT);
   randomSeed(analogRead(0));
   attachInterrupt(digitalPinToInterrupt(main_modepin),interupting, CHANGE);
   //load up the strips
@@ -16,6 +19,10 @@ void setup() {
   neo_strip7.begin();
   neo_strip8.begin();
   neo_show();
+  SoftPWMBegin();
+  SoftPWMSet(main_redpin,0);
+  SoftPWMSet(main_greenpin,0);
+  SoftPWMSet(main_bluepin,0);
 }
 void loop() {
   // check button for false readings

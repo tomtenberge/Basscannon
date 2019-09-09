@@ -88,7 +88,6 @@ void mode_02()
       neo_setled(0,i,color_1);
     }
   }
-  Serial.println(mode_02_counter2);
   neo_show();
 }
 void mode_03()
@@ -359,7 +358,6 @@ void mode_09()
       neo_setled(0,i,Black);
     }
   }
-  Serial.println("poing - " + (String)audio_bass);
   neo_show();
 }
 void mode_10()
